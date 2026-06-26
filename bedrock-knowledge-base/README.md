@@ -28,16 +28,24 @@ bedrock-knowledge-base/
 │   ├── brentwood-housing-policies/  # Raw PDF policies downloaded
 │   ├── download_pdfs.py      # Script to scrape council policies
 │   ├── project_briefing.md   # Project briefing parameters
+│   ├── sprint1_outcomes.md   # Sprint 1 completion walkthrough
+│   ├── sprint2_outcomes.md   # Sprint 2 completion walkthrough
 │   └── video_script.md       # Presenter demo transcript
 ├── infra/                    # AWS CDK IaC (Python)
 │   ├── app.py                # CDK entrypoint
 │   └── knowledge_base_stack.py # Storage, KMS, IAM, and KB definitions
-├── src/                      # Streamlit Application
-│   └── app.py                # UI code and Bedrock client integration
+├── scripts/                  # Helper scripts
+│   ├── bootstrap_ingestion.py # Script to upload policies and trigger KB sync
+│   └── run_query.py          # Script to run policy queries via CLI
+├── src/                      # Streamlit Application & Backend
+│   ├── __init__.py           # Package init
+│   ├── citation_parser.py    # Citation extraction logic (Sprint 2)
+│   └── orchestrator.py       # RAG query orchestrator (Sprint 2)
 └── tests/                    # Verification suite
     ├── conftest.py           # Pytest configurations
-    ├── test_app.py           # Unit tests
-    └── eval_pipeline.py      # Ragas verification script
+    ├── test_infra.py         # Infrastructure unit tests (Sprint 1)
+    ├── test_orchestration.py # Orchestrator unit tests (Sprint 2)
+    └── verify_ingestion.py   # Ingestion verification script (Sprint 1)
 ```
 
 ---
