@@ -1,0 +1,7 @@
+aws-cdk-lib>=2.154.1
+constructs>=10.3.0
+boto3>=1.34.120
+pytest>=8.0.0
+pytest-mock>=3.12.0
+python-dotenv>=1.0.1
+botocore[crt]>=1.34.120
