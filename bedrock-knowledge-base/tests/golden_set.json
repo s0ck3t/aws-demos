@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Is prior written permission required for a secure tenant to keep a single cat or dog?",
+    "ground_truth": "Yes, secure tenants must obtain the Council's prior written permission to keep a single cat or small dog.",
+    "expected_source": "Pets Policy 2025 - 2028.pdf"
+  },
+  {
+    "question": "Which pets can secure tenants keep without requesting permission?",
+    "ground_truth": "Secure tenants can keep small caged birds, fish in tanks, or small caged rodents without requesting permission.",
+    "expected_source": "Pets Policy 2025 - 2028.pdf"
+  },
+  {
+    "question": "Are tenants allowed to breed or sell animals from their council properties?",
+    "ground_truth": "No, tenants are not allowed to breed or sell animals from their Council properties.",
+    "expected_source": "Pets Policy 2025 - 2028.pdf"
+  },
+  {
+    "question": "Can residents keep animals listed under the Dangerous Wild Animal Act 1976?",
+    "ground_truth": "No, permission will not be granted to keep any animals listed under the Dangerous Wild Animal Act 1976.",
+    "expected_source": "Pets Policy 2025 - 2028.pdf"
+  },
+  {
+    "question": "Who is responsible for identifying damp and mould solutions?",
+    "ground_truth": "Both the Council and residents share responsibility. The Council will investigate and identify the solutions, and tenants are responsible for implementing solutions that are their responsibility.",
+    "expected_source": "Damp, Mould and Condensation Policy 2022 - 2025.pdf"
+  },
+  {
+    "question": "What is the main objective of the Damp and Mould Policy?",
+    "ground_truth": "The main objective is to set out how the Council will address damp and condensation and resulting mould.",
+    "expected_source": "Damp, Mould and Condensation Policy 2022 - 2025.pdf"
+  },
+  {
+    "question": "Under what circumstances will a tenant be offered a decant?",
+    "ground_truth": "A tenant will be offered a decant when required to move because of unexpected damage, major repair or improvement works, or when the property is to be disposed of or redeveloped.",
+    "expected_source": "Decant Policy 2022 - 2025.pdf"
+  },
+  {
+    "question": "Under what circumstances is a planned temporary decant required?",
+    "ground_truth": "A planned temporary decant may be required where works such as damp proofing, structural works or asbestos removal are to be carried out and would leave the resident without basic facilities for a period of time, or because of a health and safety requirement.",
+    "expected_source": "Decant Policy 2022 - 2025.pdf"
+  },
+  {
+    "question": "For whom does the Council provide funding for adaptations?",
+    "ground_truth": "The Council provides funding for adaptations for Council Housing tenants living in Housing Revenue Account (HRA) properties.",
+    "expected_source": "Aids and adaptations policy 2022 - 2027.pdf"
+  },
+  {
+    "question": "What are the two categories of adaptations defined in the Aids and Adaptations Policy?",
+    "ground_truth": "The two categories are minor adaptations (cost below £400, e.g. hand rails) and major adaptations (larger structural conversion works).",
+    "expected_source": "Aids and adaptations policy 2022 - 2027.pdf"
+  },
+  {
+    "question": "What is the stay put policy for residents in general needs high rise buildings during a fire?",
+    "ground_truth": "In the event of a fire in another part of the building, it is usually safe to stay in your home. However, if the fire starts in your own home, you must evacuate immediately, close the front door, and call 999 or 112.",
+    "expected_source": "General Needs High Rise Evacuation Notice.pdf"
+  },
+  {
+    "question": "What should residents of general needs low rise properties do if a fire breaks out in their own home?",
+    "ground_truth": "If a fire breaks out in your own home, you should leave the room where the fire is, close the door, get everybody to leave immediately, close the front door, leave the building, and call 999 or 112.",
+    "expected_source": "General Needs Low Rise Evacuation Notice.pdf"
+  },
+  {
+    "question": "What is the Council's policy on storing personal items in communal areas?",
+    "ground_truth": "No personal items are to be stored in General Needs communal areas, including waste bags, shoe racks, ornaments, chairs, lawn mowers, or vehicles. Only slim, non-slip doormats are permissible.",
+    "expected_source": "Communal Area Management Procedure.pdf"
+  },
+  {
+    "question": "Where can class 1 or class 2 mobility scooters be stored?",
+    "ground_truth": "Class 1 or class 2 mobility scooters can be stored in designated storage areas, within the resident's home (subject to permission and adaptations if required), or in a mobility scooter store in sheltered housing schemes.",
+    "expected_source": "Mobility Scooter Policy 2022 - 2025.pdf"
+  },
+  {
+    "question": "What are the interest-free payment options for leaseholders?",
+    "ground_truth": "Leaseholders can pay interest-free by instalments over 12 months for bills under £2,500, 24 months for bills between £2,500 and £5,000, and 60 months for bills over £5,000.",
+    "expected_source": "Leaseholder Payment Options Policy - 2024-27.pdf"
+  },
+  {
+    "question": "How does the Council define a management move?",
+    "ground_truth": "A management move is where a high priority transfer status is given to a council tenant of a Housing Revenue Account (HRA) property because of exceptional circumstances requiring them to move urgently.",
+    "expected_source": "Management Move Policy 2025 - 2028.pdf"
+  },
+  {
+    "question": "What types of tenancy does the Council offer to new tenants according to the Tenancy Strategy?",
+    "ground_truth": "The Council offers introductory tenancies and fixed term tenancies for new general needs lettings, secure tenancies for sheltered housing, non-secure tenancies for temporary cases, and licence agreements for shared accommodation.",
+    "expected_source": "Tenancy Strategy 2021 - 2026.pdf"
+  },
+  {
+    "question": "Under what circumstances will the Council decide not to renew a fixed term tenancy?",
+    "ground_truth": "The Council may decide not to renew a fixed term tenancy if there is a significant increase in the tenant's financial circumstances, under-occupation of the property, overcrowding, the specific need for allocation is no longer present, or terms of the tenancy have been breached.",
+    "expected_source": "Tenancy Strategy 2021 - 2026.pdf"
+  },
+  {
+    "question": "How are social housing rents calculated?",
+    "ground_truth": "Rents are calculated using a formula where 30% is based on relative property values, 70% is based on relative local earnings, and a bedroom factor is applied.",
+    "expected_source": "Rent Setting Policy 2023 - 2030.pdf"
+  },
+  {
+    "question": "What procedure does the Council follow when a tenant falls into rent arrears?",
+    "ground_truth": "The Council adopts a support-first approach with early intervention. If arrears persist, the Council applies for direct payments from Universal Credit. If the tenant fails to engage or pay, the Council commences legal proceedings and applies for possession as a last resort.",
+    "expected_source": "Income Management Policy 2023–2026.pdf"
+  }
+]
