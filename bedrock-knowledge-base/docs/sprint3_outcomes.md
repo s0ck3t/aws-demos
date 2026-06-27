@@ -9,32 +9,32 @@ This document details the successful implementation, testing, and containerizati
 We have implemented a professional, friendly, and clean Streamlit web application, created a containerized packaging configuration using Docker and Docker Compose, and verified the application's runtime initialization using programmatic integration tests.
 
 ### 1. Frontend & Custom Styling
-*   **[app.py](file:///e:/Development/aws-demos/bedrock-knowledge-base/src/app.py)**:
+*   **[app.py](../src/app.py)**:
     *   Creates a complete chat UI allowing housing officers and citizens to input policy queries.
     *   Maintains scrollable chat history in the Streamlit `session_state`.
     *   Displays query answers grounded in policy documents.
     *   Renders citation references inside styled, collapsible accordions (`st.expander`) directly below the corresponding assistant response, showing the source filename, page number, and raw text chunk excerpt.
     *   Includes a dynamic sidebar showing active policy documents referenced in the current session.
     *   Supports session reset via a "Clear Conversation History" action.
-*   **[style.css](file:///e:/Development/aws-demos/bedrock-knowledge-base/src/static/style.css)**:
+*   **[style.css](../src/static/style.css)**:
     *   Applies custom branding and aesthetics.
     *   Utilizes the friendly, modern **Outfit** Google Font.
     *   Implements a light, professional, and friendly theme (custom HSL color schema, white background elements, soft grey-blue accents, clear contrast).
     *   Overrides Streamlit elements (hiding default headers/footers) to create an app-like experience.
 
 ### 2. Containerization
-*   **[Dockerfile](file:///e:/Development/aws-demos/bedrock-knowledge-base/Dockerfile)**:
+*   **[Dockerfile](../Dockerfile)**:
     *   Uses the secure, lightweight, and modern **`python:3.13-slim`** base image (matching the local host environment).
     *   Ensures stdout/stderr are unbuffered and disables `.pyc` creation.
     *   Installs dependencies and exposes port `8501`.
     *   Defines a standard health check via `curl` against `http://localhost:8501/_stcore/health`.
-*   **[docker-compose.yaml](file:///e:/Development/aws-demos/bedrock-knowledge-base/docker-compose.yaml)**:
+*   **[docker-compose.yaml](../docker-compose.yaml)**:
     *   Orchestrates local runtime deployment.
     *   Passes local AWS session authentication parameters from host environments (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, etc.).
     *   Bind-mounts the local `~/.aws` folder into `/root/.aws:ro` to enable seamless AWS credential resolution.
 
 ### 3. Integration Testing
-*   **[test_app.py](file:///e:/Development/aws-demos/bedrock-knowledge-base/tests/test_app.py)**:
+*   **[test_app.py](../tests/test_app.py)**:
     *   Launches the Streamlit app on a test-specific port (`8509`) in a background subprocess.
     *   Polls the health check endpoint for up to 10 seconds.
     *   Asserts the endpoint returns `200 OK`.

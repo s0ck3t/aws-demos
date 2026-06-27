@@ -8,7 +8,7 @@ Welcome to the AWS Demos Portfolio. This repository hosts a collection of produc
 
 | Project Demo | Description | Tech Stack | Baseline Cost | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| [**The Brentwood Policy Oracle**](./bedrock-knowledge-base/) | Serverless RAG interface for regulatory documents, parsing tables via Bedrock FM Parser and indexing via S3 Vectors. | Bedrock, S3 Vectors, Streamlit, CDK | **$0.00 / month (Idle)** | ✔️ Active (Sprint 2 Completed) |
+| [**The Brentwood Policy Oracle**](./bedrock-knowledge-base/) | Serverless RAG interface for regulatory documents, parsing tables via Bedrock FM Parser and indexing via S3 Vectors. | Bedrock, S3 Vectors, Streamlit, CDK | **$0.00 / month (Idle)** | ✔️ Active (Sprint 5 Completed) |
 
 ---
 

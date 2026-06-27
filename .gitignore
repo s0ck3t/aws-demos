@@ -1,0 +1,39 @@
+# Python environment
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# AWS CDK outputs
+cdk.out/
+.cdk.staging/
+
+# Node/CDK modules
+node_modules/
+package-lock.json
+
+# IDE / OS configs
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets & Credentials
+.env
+secrets.json
+credentials
+credentials.json
+*-credentials.json
+*.pem
+*.key
+*.pub
+
+# Local stack deployment outputs
+.ingestion_job_info
+bedrock-knowledge-base/.ingestion_job_info

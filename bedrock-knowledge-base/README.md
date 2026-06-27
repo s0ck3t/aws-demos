@@ -175,3 +175,33 @@ The pipeline successfully passed all target quality gates:
 | 20 | What procedure does the Council follow when a tenant falls into rent arrears? | 0.905 | 0.962 | 1.000 |
 |--- | --- | --- | --- | --- |
 | **AVG** | **Overall Averages** | **0.970** | **0.778** | **0.975** |
+
+---
+
+## 🖥️ User Interface & End-to-End Testing
+
+To ensure the web application is fully functional, robust, and correctly displays grounded references, Sprint 5 introduces an automated **Playwright End-to-End browser testing suite**.
+
+### Running E2E tests
+
+1. Ensure your local Python environment and Playwright browsers are installed:
+   ```bash
+   .venv\Scripts\playwright install
+   ```
+2. Execute the E2E test suite:
+   ```bash
+   .venv\Scripts\pytest tests/test_e2e.py
+   ```
+
+### UI Screenshots
+
+Below are screenshots of the running Streamlit web application captured automatically during the headless E2E test runs.
+
+#### 1. Initial Application Load
+This is the state of the Brentwood Policy Oracle upon initial load, featuring the clean, light-themed professional console with blue accents:
+![Brentwood Policy Oracle Initial Load](./docs/images/initial_load.png)
+
+#### 2. Chat Query Response with Grounded Citations
+This is the state after a user submits a query, showing Claude 4.5 Sonnet's grounded response and the expanded citation drawer listing exact page references:
+![Brentwood Policy Oracle Search Results](./docs/images/search_results.png)
+

@@ -9,17 +9,17 @@ This document details the successful implementation, testing, and verification o
 We have implemented the backend query orchestration, citation extraction parser, and confidence boundaries for the UK housing policy RAG assistant using native `boto3`.
 
 ### 1. Application Components
-*   **[citation_parser.py](file:///e:/Development/aws-demos/bedrock-knowledge-base/src/citation_parser.py)**:
+*   **[citation_parser.py](../src/citation_parser.py)**:
     *   Created a parsing utility to extract metadata from Bedrock's `retrieve` API JSON response.
     *   URL-decodes source PDF file paths (e.g., `Pets%20Policy%202025%20-%202028.pdf` -> `Pets Policy 2025 - 2028.pdf`).
     *   Extracts float page numbers (e.g., `3.0`) and safely casts them to standard 1-based integers (e.g., `3`).
     *   Implements metadata deduplication to return unique source documents and pages referenced in order of appearance.
-*   **[orchestrator.py](file:///e:/Development/aws-demos/bedrock-knowledge-base/src/orchestrator.py)**:
+*   **[orchestrator.py](../src/orchestrator.py)**:
     *   Orchestrates the RAG flow by combining Bedrock Knowledge Base retrieval with Claude 4.5 Sonnet generation.
     *   Implements dynamic `KNOWLEDGE_BASE_ID` resolution (checking environment variables first, then parsing the local `.ingestion_job_info` bootstrap metadata file).
     *   Integrates the system-defined **Claude 4.5 Sonnet Global Inference Profile** (`global.anthropic.claude-sonnet-4-5-20250929-v1:0`) in `eu-west-2` (London) for grounded answer generation.
     *   Implements a double-layer confidence boundary and safety filter that defaults to *"I cannot find this information in the policy documents."* if out-of-domain.
-*   **[__init__.py](file:///e:/Development/aws-demos/bedrock-knowledge-base/src/__init__.py)**:
+*   **[__init__.py](../src/__init__.py)**:
     *   Establishes `src/` as an importable Python package directory.
 
 ---
@@ -27,7 +27,7 @@ We have implemented the backend query orchestration, citation extraction parser,
 ## 🧪 Testing & Validation Results
 
 ### 1. Automated pytest Unit Tests
-We wrote a comprehensive test suite in [test_orchestration.py](file:///e:/Development/aws-demos/bedrock-knowledge-base/tests/test_orchestration.py) using `pytest` and `unittest.mock` to verify the logic. We ran the test runner:
+We wrote a comprehensive test suite in [test_orchestration.py](../tests/test_orchestration.py) using `pytest` and `unittest.mock` to verify the logic. We ran the test runner:
 ```powershell
 .venv\Scripts\pytest.exe
 ```
