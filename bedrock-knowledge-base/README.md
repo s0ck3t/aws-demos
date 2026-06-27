@@ -79,6 +79,13 @@ bedrock-knowledge-base/
    ```bash
    pip install -r requirements.txt
    ```
+4. Create your local environment configuration by copying the template:
+   ```bash
+   cp .env.example .env
+   # Or on Windows PowerShell:
+   Copy-Item .env.example .env
+   ```
+   Open the `.env` file and set your `AWS_PROFILE` and `AWS_DEFAULT_REGION` (e.g. `eu-west-2`).
 
 ### Step 2: Download / verify housing policies
 The actual policy files are already supplied under `docs/brentwood-housing-policies/`. If you need to re-fetch the latest live policies from the council site, you can run:

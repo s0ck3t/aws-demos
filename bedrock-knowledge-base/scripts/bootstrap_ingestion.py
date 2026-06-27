@@ -3,6 +3,10 @@ import sys
 import glob
 import boto3
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load local environment variables from .env if present
+load_dotenv()
 
 def discover_cdk_outputs():
     """Discover S3 bucket and KB/DS IDs from deployed CloudFormation stacks."""

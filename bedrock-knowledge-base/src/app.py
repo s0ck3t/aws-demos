@@ -1,6 +1,10 @@
 import os
 import sys
 import streamlit as st
+from dotenv import load_dotenv
+
+# Load local environment variables from .env if present
+load_dotenv()
 
 # Ensure src directory is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

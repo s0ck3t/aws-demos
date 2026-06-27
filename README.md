@@ -64,6 +64,8 @@ export AWS_PROFILE="your-profile-name"
 export AWS_DEFAULT_REGION="eu-west-2"
 ```
 
+*Note: Alternatively, you can copy the `.env.example` template file located inside the specific demo subdirectories to a local `.env` file to manage these configuration values automatically without manually exporting them in your shell.*
+
 ### 4. Bootstrap your AWS Account
 If you haven't deployed CDK applications to your target AWS region/account before, you must bootstrap the environment:
 ```bash

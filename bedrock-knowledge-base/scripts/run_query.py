@@ -1,6 +1,10 @@
 import os
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load local environment variables from .env if present
+load_dotenv()
 
 # Ensure the project root directory is in the Python path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
