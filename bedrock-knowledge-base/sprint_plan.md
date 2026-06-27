@@ -48,15 +48,15 @@ This checklist outlines the phase-by-phase implementation plan for building, tes
 *   **Deliverable**: A local Streamlit application integrated with the AWS Bedrock backend, containerized via Docker.
 
 ### Task Checklist
-- [ ] Implement Streamlit dashboard structure in `src/app.py` with custom styling (dark-mode theme matching corporate branding).
-- [ ] Integrate session state handling for chat history persistence.
-- [ ] Add sidebar or collapsible expanders displaying search citations (text excerpt, PDF link, page number).
-- [ ] Create a local `Dockerfile` and `docker-compose.yaml` to containerize the app execution.
-- [ ] Write integration test assertions verifying Streamlit server startup.
+- [x] Implement Streamlit dashboard structure in `src/app.py` with custom styling (light-mode professional and friendly theme).
+- [x] Integrate session state handling for chat history persistence.
+- [x] Add sidebar and collapsible expanders displaying search citations (text excerpt, page number, document source).
+- [x] Create a local `Dockerfile` and `docker-compose.yaml` to containerize the app execution.
+- [x] Write integration test assertions verifying Streamlit server startup.
 
 ### Measurable Outcomes (Automatic Tests)
-*   **Build Test**: Running `docker build -t policy-oracle .` succeeds.
-*   **App Health Check**: A curl request to the Streamlit local port (`http://localhost:8501`) returns status `200`.
+*   **Build Test**: Running `docker compose build` succeeds.
+*   **App Health Check**: pytest runs integration tests that check Streamlit health endpoint (`http://localhost:8509/_stcore/health`) and verify a `200 OK` is returned.
 
 ---
 
@@ -78,3 +78,20 @@ This checklist outlines the phase-by-phase implementation plan for building, tes
     *   `faithfulness` >= 0.95
     *   `answer_relevance` >= 0.90
     *   `context_recall` >= 0.90
+
+---
+
+## 🏃‍♂️ Sprint 5: Playwright End-to-End Browser Testing
+*   **Objective**: Programmatically validate browser rendering, layout accuracy, and interactive chat functionality.
+*   **Deliverable**: An E2E browser automation test suite using Playwright.
+
+### Task Checklist
+- [ ] Install `playwright` and `pytest-playwright`.
+- [ ] Write E2E browser tests under `tests/test_e2e.py` to launch headless Chromium/Firefox/Webkit instances.
+- [ ] Simulate user interaction (entering questions, submitting queries, scrolling, clicking citation expanders).
+- [ ] Assert correct visual rendering of user and assistant chat bubbles, matching corporate CSS styles.
+- [ ] Assert citations are rendered and expandable with correct page references.
+
+### Measurable Outcomes (Automatic Tests)
+*   **Browser interaction verification**: Running `pytest tests/test_e2e.py` starts Streamlit, runs Playwright, inputs test queries, clicks elements, and finishes with `3/3 E2E tests passed`.
+

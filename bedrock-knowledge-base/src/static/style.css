@@ -1,0 +1,185 @@
+/* Custom CSS for Brentwood Policy Oracle - Light, Professional & Friendly */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Main Page Overrides */
+html, body, [class*="css"], .stApp {
+    font-family: 'Outfit', sans-serif !important;
+    background-color: #f7f9fc !important;
+    color: #1e293b !important;
+}
+
+/* Sidebar Custom Styling */
+section[data-testid="stSidebar"] {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+section[data-testid="stSidebar"] .stMarkdown h1, 
+section[data-testid="stSidebar"] .stMarkdown h2, 
+section[data-testid="stSidebar"] .stMarkdown h3 {
+    color: #1e3a8a !important;
+    font-weight: 600 !important;
+}
+
+/* App Header Branding */
+.app-header {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    padding: 24px;
+    border-radius: 16px;
+    color: #ffffff;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.1);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.app-header p {
+    margin: 6px 0 0 0;
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+.badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Chat Message Bubbles */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 80px;
+}
+
+.chat-bubble-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 8px;
+    animation: slideUp 0.3s ease-out;
+}
+
+.chat-bubble-user-container {
+    justify-content: flex-end;
+}
+
+.chat-bubble-assistant-container {
+    justify-content: flex-start;
+}
+
+.chat-bubble-user {
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 12px 18px;
+    border-radius: 18px 18px 2px 18px;
+    max-width: 75%;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 450;
+    transition: transform 0.2s ease;
+}
+
+.chat-bubble-user:hover {
+    transform: scale(1.01);
+}
+
+.chat-bubble-assistant {
+    background-color: #ffffff;
+    color: #1e293b;
+    padding: 16px 20px;
+    border-radius: 18px 18px 18px 2px;
+    max-width: 80%;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: transform 0.2s ease;
+}
+
+.chat-bubble-assistant:hover {
+    transform: scale(1.01);
+}
+
+.assistant-header {
+    font-weight: 600;
+    color: #1e3a8a;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Accordion & Citation Styling */
+.citation-card {
+    background-color: #f8fafc;
+    border-left: 4px solid #3b82f6;
+    padding: 12px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    border: 1px solid #e2e8f0;
+    border-left-width: 4px;
+}
+
+.citation-source {
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 4px;
+}
+
+.citation-excerpt {
+    font-style: italic;
+    color: #475569;
+    background-color: #ffffff;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #f1f5f9;
+    margin-top: 4px;
+    font-size: 0.85rem;
+}
+
+/* Sidebar List Item */
+.sidebar-ref-item {
+    background-color: #f1f5f9;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.85rem;
+}
+
+.sidebar-ref-title {
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hide Default Streamlit Elements for a cleaner interface */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}

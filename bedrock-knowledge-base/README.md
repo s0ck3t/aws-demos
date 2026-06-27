@@ -24,12 +24,15 @@ bedrock-knowledge-base/
 ├── README.md                 # This file
 ├── architecture.md           # Deep-dive architecture and design decisions
 ├── requirements.txt          # Python dependencies
+├── Dockerfile                # Streamlit app container definition (Sprint 3)
+├── docker-compose.yaml       # Multi-container local orchestration (Sprint 3)
 ├── docs/                     # Documentation and ingestion PDFs
 │   ├── brentwood-housing-policies/  # Raw PDF policies downloaded
 │   ├── download_pdfs.py      # Script to scrape council policies
 │   ├── project_briefing.md   # Project briefing parameters
 │   ├── sprint1_outcomes.md   # Sprint 1 completion walkthrough
 │   ├── sprint2_outcomes.md   # Sprint 2 completion walkthrough
+│   ├── sprint3_outcomes.md   # Sprint 3 completion walkthrough
 │   └── video_script.md       # Presenter demo transcript
 ├── infra/                    # AWS CDK IaC (Python)
 │   ├── app.py                # CDK entrypoint
@@ -39,10 +42,14 @@ bedrock-knowledge-base/
 │   └── run_query.py          # Script to run policy queries via CLI
 ├── src/                      # Streamlit Application & Backend
 │   ├── __init__.py           # Package init
+│   ├── app.py                # Streamlit web application frontend (Sprint 3)
 │   ├── citation_parser.py    # Citation extraction logic (Sprint 2)
-│   └── orchestrator.py       # RAG query orchestrator (Sprint 2)
+│   ├── orchestrator.py       # RAG query orchestrator (Sprint 2)
+│   └── static/               # Frontend asset and style directory
+│       └── style.css         # Custom friendly light CSS styles (Sprint 3)
 └── tests/                    # Verification suite
     ├── conftest.py           # Pytest configurations
+    ├── test_app.py           # Streamlit health integration tests (Sprint 3)
     ├── test_infra.py         # Infrastructure unit tests (Sprint 1)
     ├── test_orchestration.py # Orchestrator unit tests (Sprint 2)
     └── verify_ingestion.py   # Ingestion verification script (Sprint 1)
@@ -77,7 +84,7 @@ python docs/download_pdfs.py
 ```
 
 ### Step 3: Deploy AWS Infrastructure (CDK)
-1. Ensure your AWS credentials are active (see the session setup in `implementation_plan.md` if needed).
+1. Ensure your AWS credentials are active.
 2. Bootstrap your AWS region (required if you haven't deployed CDK stacks in `eu-west-2` before):
    ```bash
    npx aws-cdk bootstrap aws://YOUR_ACCOUNT_ID/eu-west-2
@@ -86,7 +93,7 @@ python docs/download_pdfs.py
    ```bash
    npx aws-cdk deploy --all --require-approval never
    ```
-4. *Important*: Once deployment completes, you do not need to manually copy bucket names or trigger jobs. Simply run the bootstrap script to upload the policy PDFs and start the ingestion job:
+4. *Important*: Once deployment completes, run the bootstrap script to upload the policy PDFs and start the ingestion job:
    ```bash
    python scripts/bootstrap_ingestion.py
    ```
@@ -95,17 +102,23 @@ python docs/download_pdfs.py
    python tests/verify_ingestion.py
    ```
 
-### Step 4: Run the Streamlit Chat App Locally
-1. Authenticate local environment variables with your CDK output properties:
-   ```bash
-   export KNOWLEDGE_BASE_ID="<your-kb-id>"
-   export AWS_DEFAULT_REGION="eu-west-2"
-   ```
+### Step 4: Run the Streamlit Chat App
+
+#### Option A: Running Directly on Host
+1. Authenticate local environment variables or ensure active CLI credentials.
 2. Run the application:
    ```bash
    streamlit run src/app.py
    ```
 3. The interface will automatically open in your default browser at `http://localhost:8501`.
+
+#### Option B: Running in a Docker Container
+1. Ensure you have active AWS session parameters or profile configured in your terminal shell.
+2. Spin up the application stack using Docker Compose:
+   ```bash
+   docker compose up --build
+   ```
+3. Access the web interface at `http://localhost:8501`. The container automatically maps host credentials from `~/.aws` for AWS API runtime access.
 
 ---
 
