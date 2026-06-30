@@ -37,13 +37,13 @@ class DataStorageStack(Stack):
         self.vector_bucket.apply_removal_policy(RemovalPolicy.DESTROY)
 
         # 3. S3 Vector Index (L1 Construct)
-        # Defines index parameters (1024 dimensions for Titan Embeddings V2, Cosine similarity)
+        # Defines index parameters (256 dimensions for Titan Embeddings V2, Cosine similarity)
         self.vector_index = s3vectors.CfnIndex(
             self, "VectorIndex",
             index_name="brentwood-policy-index-v2",
             vector_bucket_arn=self.vector_bucket.attr_vector_bucket_arn,
             data_type="float32",
-            dimension=1024,
+            dimension=256,
             distance_metric="cosine",
             metadata_configuration=s3vectors.CfnIndex.MetadataConfigurationProperty(
                 non_filterable_metadata_keys=[

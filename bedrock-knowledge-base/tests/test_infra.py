@@ -95,3 +95,19 @@ def test_iam_no_s3_wildcard_resource():
             if is_s3_or_vector_action:
                 # Assert that Resource is NOT "*" (wildcard)
                 assert "*" not in resources, f"Wildcard permission found in S3 statement: {stmt}"
+
+def test_s3_vectors_index_dimension():
+    """Assert that the S3 Vector index is configured with 256 dimensions."""
+    app = App()
+    security = SecurityStack(app, "TestSecurityStack")
+    storage = DataStorageStack(
+        app, "TestDataStorageStack",
+        kms_key=security.kms_key,
+        bedrock_role=security.bedrock_role
+    )
+    template = assertions.Template.from_stack(storage)
+    
+    template.has_resource_properties("AWS::S3Vectors::Index", {
+        "Dimension": 256
+    })
+

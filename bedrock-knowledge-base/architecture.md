@@ -75,7 +75,7 @@ graph TD
     *   **Parent Chunks**: 1,000 tokens. When a child chunk matches a user's search query, the Bedrock Knowledge Base automatically retrieves its larger parent chunk. This provides the LLM with full context (e.g., surrounding text, table headers, legal exemptions) to answer the query accurately.
 
 ### C. Foundation Models
-*   **Embeddings**: `amazon.titan-embed-text-v2:0` (Titan Text Embeddings V2). Set to **1024 dimensions** for standard accuracy, or **512 dimensions** for maximum cost/storage efficiency.
+*   **Embeddings**: `amazon.titan-embed-text-v2:0` (Titan Text Embeddings V2). Set to **256 dimensions** for optimized storage footprint and cost efficiency.
 *   **Generation**: `anthropic.claude-4-5-sonnet-20250929-v1:0` (Claude 4.5 Sonnet). Claude 4.5 Sonnet excels at reasoning, cross-referencing statutory timelines, and interpreting structured Markdown tables.
 
 ---
