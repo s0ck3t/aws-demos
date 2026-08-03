@@ -42,4 +42,7 @@ bedrock-knowledge-base/.ingestion_job_info
 interview_notes/
 *.interview.md
 *.interview_notes
+*sprint_assets*
+docs/*sprint_assets*
+
 
