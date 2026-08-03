@@ -1,0 +1,7 @@
+sku,product_name,category,price,brand,in_stock
+SKU-AUDIO-101,Noise-Canceling Wireless Headphones,Audio,249.99,SoundPulse,true
+SKU-AUDIO-102,True Wireless Earbuds,Audio,129.99,SoundPulse,true
+SKU-SMART-201,Ultra-Slim Smartwatch Series X,Wearables,299.99,TechTime,true
+SKU-SMART-202,Fitness Tracker Band 3,Wearables,79.99,TechTime,true
+SKU-HOME-301,Smart Home Hub Pro,Smart Home,149.99,HomeGenie,true
+SKU-HOME-302,RGB Ambient Smart Lamp,Smart Home,49.99,HomeGenie,false

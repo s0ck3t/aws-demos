@@ -1,6 +1,6 @@
 # AWS Demos & Architecture Portfolio
 
-Welcome to the AWS Demos Portfolio. This repository hosts a collection of production-grade, cost-efficient, and secure cloud demonstrations. Each project is designed to follow the **AWS Well-Architected Framework**, prioritizing security-at-all-layers, strict cost control (scaling to zero where possible), programmatic testing, and Infrastructure as Code (IaC) automation.
+Welcome to the AWS Demos Portfolio. This repository hosts a collection of production-grade, cost-efficient, and secure cloud demonstrations. Each project is designed to follow the **AWS Well-Architected Framework**, prioritising security-at-all-layers, strict cost control (scaling to zero where possible), programmatic testing, and Infrastructure as Code (IaC) automation.
 
 ---
 
@@ -8,7 +8,8 @@ Welcome to the AWS Demos Portfolio. This repository hosts a collection of produc
 
 | Project Demo | Description | Tech Stack | Baseline Cost | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| [**The Brentwood Policy Oracle**](./bedrock-knowledge-base/) | Serverless RAG interface for regulatory documents, parsing tables via Bedrock FM Parser and indexing via S3 Vectors. | Bedrock, S3 Vectors, Streamlit, CDK | **$0.00 / month (Idle)** | ✔️ Active (Sprint 5 Completed) |
+| [**The Brentwood Policy Oracle**](./bedrock-knowledge-base/) | Serverless RAG interface for regulatory documents, parsing tables via Bedrock FM Parser and indexing via S3 Vectors. | Bedrock, S3 Vectors, Streamlit, CDK | **£0.00 / month (Idle)** | ✔️ Active (Sprint 5 Completed) |
+| [**Omnichannel AI Concierge**](./amazon-connect-concierge/) | 4-part enterprise GenAI Amazon Connect concierge featuring Customer Profiles, MCP tools, A2A Gateway, & pre-prod evaluation. | Connect, Customer Profiles, Bedrock, MCP, CDK | **£0.00 / month (Idle)** | 🟡 Active (Sprint 1) |
 
 ---
 
@@ -18,15 +19,16 @@ Welcome to the AWS Demos Portfolio. This repository hosts a collection of produc
 aws-demos/
 ├── README.md                     # Main repository guide and setup instructions
 ├── GEMINI.md                     # AI collaboration rules and development practices
-└── bedrock-knowledge-base/       # Demo: Serverless RAG on AWS Bedrock
+├── bedrock-knowledge-base/       # Demo: Serverless RAG on AWS Bedrock
+└── amazon-connect-concierge/     # Demo: Next-Gen Omnichannel E-Commerce AI Concierge (4-Part Series)
     ├── README.md                 # Demo-specific setup and walkthrough
     ├── architecture.md           # Deep-dive architecture and design decisions
-    ├── docs/                     # Raw public policies and briefing documents
-    │   ├── brentwood-housing-policies/  # Target UK council PDF documents
-    │   └── project_briefing.md   # Initial project parameters
+    ├── project_roadmap.md        # Detailed roadmap for Parts 1, 2, 3, & 4
+    ├── blogs/                    # Technical blog post series markdown files
+    ├── data/                     # Synthetic catalog and clickstream event samples
     ├── infra/                    # AWS CDK (Python) infrastructure stacks
-    ├── src/                      # Streamlit application source code
-    └── tests/                    # Unit tests & Ragas evaluation script
+    ├── src/                      # Lambda functions & profile helpers
+    └── tests/                    # Unit tests & CDK stack assertion tests
 ```
 
 ---

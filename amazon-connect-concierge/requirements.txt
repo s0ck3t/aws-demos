@@ -1,0 +1,13 @@
+# AWS CDK & Infrastructure Dependencies
+aws-cdk-lib>=2.150.0
+constructs>=10.3.0
+
+# AWS SDK & Application Utilities
+boto3>=1.34.0
+botocore>=1.34.0
+pydantic>=2.7.0
+python-dotenv>=1.0.0
+
+# Testing Dependencies
+pytest>=8.0.0
+pytest-mock>=3.12.0

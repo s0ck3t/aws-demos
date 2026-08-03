@@ -1,0 +1,32 @@
+[
+  {
+    "event_id": "evt-1001",
+    "timestamp": "2026-08-03T14:30:00Z",
+    "email": "alex.dev@example.com",
+    "phone": "+15550199",
+    "event_type": "view_product",
+    "sku": "SKU-AUDIO-101",
+    "category": "Audio",
+    "device": "Mobile Web (iOS)"
+  },
+  {
+    "event_id": "evt-1002",
+    "timestamp": "2026-08-03T14:32:15Z",
+    "email": "alex.dev@example.com",
+    "phone": "+15550199",
+    "event_type": "add_to_cart",
+    "sku": "SKU-AUDIO-101",
+    "category": "Audio",
+    "device": "Mobile Web (iOS)"
+  },
+  {
+    "event_id": "evt-1003",
+    "timestamp": "2026-08-03T14:35:00Z",
+    "email": "alex.dev@example.com",
+    "phone": "+15550199",
+    "event_type": "view_product",
+    "sku": "SKU-SMART-201",
+    "category": "Wearables",
+    "device": "Mobile Web (iOS)"
+  }
+]

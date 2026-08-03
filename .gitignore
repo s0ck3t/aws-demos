@@ -37,3 +37,9 @@ credentials.json
 # Local stack deployment outputs
 .ingestion_job_info
 bedrock-knowledge-base/.ingestion_job_info
+
+# Interview Preparation & Talking Points (Private)
+interview_notes/
+*.interview.md
+*.interview_notes
+
