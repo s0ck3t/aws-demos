@@ -6,6 +6,7 @@ from aws_cdk import App, Environment
 from stacks.security_stack import SecurityStack
 from stacks.storage_stack import StorageStack
 from stacks.compute_stack import ComputeStack
+from stacks.tooling_stack import ToolingStack
 
 app = App()
 
@@ -46,5 +47,16 @@ compute_stack = ComputeStack(
     description="Compute Stack for Ingestion and Profile Recommendation Lambdas"
 )
 compute_stack.add_dependency(storage_stack)
+
+# Stack 4: Tooling Stack (API Gateway HTTP APIs and Bedrock Guardrails)
+tooling_stack = ToolingStack(
+    app,
+    "ConciergeToolingStack",
+    env=env,
+    encryption_key=security_stack.encryption_key,
+    lambda_role=security_stack.lambda_execution_role,
+    description="Tooling Stack for API Gateway HTTP APIs and Bedrock Guardrails"
+)
+tooling_stack.add_dependency(security_stack)
 
 app.synth()

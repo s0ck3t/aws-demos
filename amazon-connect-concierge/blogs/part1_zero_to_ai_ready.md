@@ -84,6 +84,10 @@ graph TD
 * **KMS CMK Encryption**: All S3 ingestion buckets and Customer Profiles domain records are encrypted using a dedicated **AWS KMS Customer Managed Key (CMK)** with 365-day automatic key rotation enabled.
 * **Decoupled CDK IAM Policies**: To prevent CloudFormation cyclic dependency deadlocks when linking Security, Storage, and Compute stacks, IAM policies are instantiated within consuming stacks and attached explicitly to role ARNs.
 
+### 3. Operational Hygiene & Data Lifecycle Management
+* **S3 Staging Lifecycle Expiration**: To maintain long-term cost controls and prevent raw catalog snapshots and transient clickstream JSON files from accumulating storage charges, the ingestion S3 bucket enforces a 30-day lifecycle expiration rule (`s3.LifecycleRule(expiration=Duration.days(30))`).
+* **Log Retention & Observability**: Explicit 30-day log groups (`logs.LogGroup`) are configured across compute Lambdas to eliminate CloudWatch storage sprawl. Production deployments can incorporate **AWS Lambda Powertools for Python** to inject structured JSON logging and correlation IDs (`contact_id`) for distributed tracing.
+
 ---
 
 ## Infrastructure as Code (AWS CDK in Python)

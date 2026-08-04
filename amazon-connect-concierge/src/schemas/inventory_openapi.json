@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Legacy E-Commerce Inventory API",
+    "description": "API for checking real-time stock levels, warehouse fulfillment lead times, and store availability.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/inventory/{sku}": {
+      "get": {
+        "summary": "Check stock level and availability for a product SKU",
+        "operationId": "checkInventory",
+        "parameters": [
+          {
+            "name": "sku",
+            "in": "path",
+            "required": true,
+            "description": "The stock keeping unit identifier (e.g. SKU-1001)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful inventory status response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sku": { "type": "string" },
+                    "product_name": { "type": "string" },
+                    "stock_level": { "type": "integer" },
+                    "status": { "type": "string", "enum": ["IN_STOCK", "LOW_STOCK", "OUT_OF_STOCK"] },
+                    "fulfillment_lead_days": { "type": "integer" },
+                    "nearby_store_availability": { "type": "boolean" }
+                  },
+                  "required": ["sku", "product_name", "stock_level", "status", "fulfillment_lead_days"]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "SKU not found in inventory catalog"
+          }
+        }
+      }
+    }
+  }
+}

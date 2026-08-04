@@ -4,10 +4,11 @@ Manages Python 3.11 Lambda functions for catalog ingestion, event processing, an
 """
 
 import os
-from aws_cdk import Stack, Duration
+from aws_cdk import Stack, Duration, RemovalPolicy
 from aws_cdk import aws_lambda as lambda_
 from aws_cdk import aws_s3 as s3
 from aws_cdk import aws_iam as iam
+from aws_cdk import aws_logs as logs
 from constructs import Construct
 
 LAMBDA_ASSET_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "src", "lambdas"))
@@ -43,6 +44,12 @@ class ComputeStack(Stack):
             code=lambda_.Code.from_asset(LAMBDA_ASSET_DIR),
             role=lambda_role,
             timeout=Duration.seconds(30),
+            log_group=logs.LogGroup(
+                self,
+                "CatalogIngestLogGroup",
+                retention=logs.RetentionDays.ONE_MONTH,
+                removal_policy=RemovalPolicy.DESTROY
+            ),
             environment=common_env
         )
 
@@ -56,6 +63,12 @@ class ComputeStack(Stack):
             code=lambda_.Code.from_asset(LAMBDA_ASSET_DIR),
             role=lambda_role,
             timeout=Duration.seconds(15),
+            log_group=logs.LogGroup(
+                self,
+                "ClickstreamProcessLogGroup",
+                retention=logs.RetentionDays.ONE_MONTH,
+                removal_policy=RemovalPolicy.DESTROY
+            ),
             environment=common_env
         )
 
@@ -69,5 +82,11 @@ class ComputeStack(Stack):
             code=lambda_.Code.from_asset(LAMBDA_ASSET_DIR),
             role=lambda_role,
             timeout=Duration.seconds(10),
+            log_group=logs.LogGroup(
+                self,
+                "ProfileRecsLogGroup",
+                retention=logs.RetentionDays.ONE_MONTH,
+                removal_policy=RemovalPolicy.DESTROY
+            ),
             environment=common_env
         )

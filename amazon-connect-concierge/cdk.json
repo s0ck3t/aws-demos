@@ -1,5 +1,5 @@
 {
-  "app": "..\\bedrock-knowledge-base\\.venv\\Scripts\\python.exe infra/app.py",
+  "app": ".venv\\Scripts\\python.exe infra/app.py",
   "watch": {
     "include": [
       "**"

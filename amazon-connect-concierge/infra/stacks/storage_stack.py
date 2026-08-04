@@ -3,7 +3,7 @@
 Manages KMS-encrypted S3 ingestion buckets and Amazon Connect Customer Profiles Domain.
 """
 
-from aws_cdk import Stack, RemovalPolicy
+from aws_cdk import Stack, Duration, RemovalPolicy
 from aws_cdk import aws_s3 as s3
 from aws_cdk import aws_customerprofiles as customerprofiles
 from aws_cdk import aws_kms as kms
@@ -26,7 +26,7 @@ class StorageStack(Stack):
 
         self.domain_name = domain_name
 
-        # 1. S3 Ingestion Bucket (Encrypted with KMS CMK)
+        # 1. S3 Ingestion Bucket (Encrypted with KMS CMK & 30-day lifecycle expiration)
         self.ingestion_bucket = s3.Bucket(
             self,
             "ConciergeIngestionBucket",
@@ -36,7 +36,14 @@ class StorageStack(Stack):
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             enforce_ssl=True,
             removal_policy=RemovalPolicy.DESTROY,
-            auto_delete_objects=True
+            auto_delete_objects=True,
+            lifecycle_rules=[
+                s3.LifecycleRule(
+                    id="ExpireStagingObjects30Days",
+                    expiration=Duration.days(30),
+                    enabled=True
+                )
+            ]
         )
 
         # Allow Customer Profiles service principal to read/write export objects in S3
@@ -56,6 +63,27 @@ class StorageStack(Stack):
                     self.ingestion_bucket.bucket_arn,
                     f"{self.ingestion_bucket.bucket_arn}/*"
                 ]
+            )
+        )
+
+        # 2. Amazon Connect Customer Profiles Domain (Zero-Baseline Cost)
+        self.customer_profiles_domain = customerprofiles.CfnDomain(
+            self,
+            "ConciergeCustomerDomain",
+            domain_name=self.domain_name,
+            default_expiration_days=365,
+            default_encryption_key=encryption_key.key_arn,
+            matching=customerprofiles.CfnDomain.MatchingProperty(
+                enabled=True,
+                auto_merging=customerprofiles.CfnDomain.AutoMergingProperty(
+                    enabled=True,
+                    consolidation=customerprofiles.CfnDomain.ConsolidationProperty(
+                        matching_attributes_list=[["EmailAddress"], ["PhoneNumber"]]
+                    ),
+                    conflict_resolution=customerprofiles.CfnDomain.ConflictResolutionProperty(
+                        conflict_resolving_model="RECENCY"
+                    )
+                )
             )
         )
 
@@ -86,6 +114,7 @@ class StorageStack(Stack):
                 )
             ]
         )
+        self.catalog_object_type.add_dependency(self.customer_profiles_domain)
 
         # 4. ObjectType Mapping: WebClickstreamEvent
         self.clickstream_object_type = customerprofiles.CfnObjectType(
@@ -133,6 +162,7 @@ class StorageStack(Stack):
                 )
             ]
         )
+        self.clickstream_object_type.add_dependency(self.customer_profiles_domain)
 
         # 5. IAM Policy for Lambda role (Decoupled to avoid cyclic dependencies)
         storage_access_policy = iam.Policy(

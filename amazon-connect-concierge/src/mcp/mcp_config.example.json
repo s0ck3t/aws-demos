@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ecommerce_tooling": {
+      "command": "python",
+      "args": [
+        "E:/Development/aws-demos/amazon-connect-concierge/src/mcp/mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      },
+      "description": "Enterprise E-Commerce Tooling Server providing inventory check and support ticket creation."
+    }
+  }
+}
