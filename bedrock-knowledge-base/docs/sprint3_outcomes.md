@@ -19,7 +19,7 @@ We have implemented a professional, friendly, and clean Streamlit web applicatio
 *   **[style.css](../src/static/style.css)**:
     *   Applies custom branding and aesthetics.
     *   Utilizes the friendly, modern **Outfit** Google Font.
-    *   Implements a light, professional, and friendly theme (custom HSL color schema, white background elements, soft grey-blue accents, clear contrast).
+    *   Implements a light, professional, and friendly theme (custom HSL colour schema, white background elements, soft grey-blue accents, clear contrast).
     *   Overrides Streamlit elements (hiding default headers/footers) to create an app-like experience.
 
 ### 2. Containerization
@@ -76,4 +76,4 @@ Once started, visit `http://localhost:8501` to access the application.
 
 As requested, we will incorporate **Playwright End-to-End Browser Testing** into the upcoming sprint plans:
 *   **Objective**: Validate real browser interactions (entering text, clicking submit, verifying the assistant message bubble renders, and expanding the citation accordion).
-*   **Approach**: Add `playwright` and `pytest-playwright` dependencies, launch the Streamlit app using a pytest fixture, and use a headless browser to perform behavioral validation of the UI.
+*   **Approach**: Add `playwright` and `pytest-playwright` dependencies, launch the Streamlit app using a pytest fixture, and use a headless browser to perform behavioural validation of the UI.

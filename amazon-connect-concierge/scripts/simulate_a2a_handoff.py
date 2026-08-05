@@ -1,9 +1,9 @@
-"""Simulate End-to-End Agent-to-Agent (A2A) Handoff Journey.
+"""Simulate End-to-End Agent-to-Agent (A2A) Open Protocol v1.0 Journey.
 
 Executes:
-1. Local schema validation and Agent Card discovery.
-2. OAuth2 Client Credentials M2M Authentication token request (if AWS Cognito parameters provided).
-3. A2A Handoff Request from Frontline Concierge Agent to Returns Specialist Agent.
+1. Agent Card Discovery via standard URI /.well-known/agent.json.
+2. OAuth2 Client Credentials M2M Authentication token request from Cognito.
+3. JSON-RPC 2.0 Task Execution Request (method: tasks/send) from Frontline Agent to Returns Specialist Agent.
 """
 
 import os
@@ -27,50 +27,56 @@ from src.lambdas.returns_specialist_agent import handler as specialist_handler
 
 
 def run_local_simulation():
-    """Run local memory simulation of A2A handoff flow."""
+    """Run local memory simulation of A2A Open Protocol flow."""
     print("\n=======================================================")
-    print("[+] [Step 1/3] A2A Agent Card Discovery (Local Spec)")
+    print("[+] [Step 1/3] A2A Agent Card Discovery (/.well-known/agent.json)")
     print("=======================================================")
     
     frontline_card = load_agent_card("agent-frontline-concierge")
     returns_card = load_agent_card("agent-returns-specialist")
 
-    print(f"[OK] Loaded Frontline Card: '{frontline_card['name']}' (Role: {frontline_card['role']})")
-    print(f"[OK] Loaded Returns Specialist Card: '{returns_card['name']}' (Role: {returns_card['role']})")
+    print(f"[OK] Loaded Frontline Card: '{frontline_card['name']}' (Protocol: {frontline_card.get('protocol_version', '1.0')})")
+    print(f"[OK] Loaded Returns Specialist Card: '{returns_card['name']}' (Protocol: {returns_card.get('protocol_version', '1.0')})")
 
     print("\n=======================================================")
-    print("[+] [Step 2/3] Constructing A2A Handoff Contract Payload")
+    print("[+] [Step 2/3] Constructing JSON-RPC 2.0 A2A Task Request Envelope")
     print("=======================================================")
 
-    handoff_contract = {
-        "session_id": "connect-session-20260805-77",
-        "origin_agent_id": frontline_card["agent_id"],
-        "target_agent_id": returns_card["agent_id"],
-        "customer_profile": {
-            "profile_id": "prof-alex-dev-001",
-            "email": "alex.dev@example.com",
-            "phone_number": "+447700900123",
-            "first_name": "Alex",
-            "last_name": "Dev"
+    jsonrpc_request = {
+        "jsonrpc": "2.0",
+        "method": "tasks/send",
+        "params": {
+            "task_id": "task-20260805-001",
+            "session_id": "connect-session-20260805-77",
+            "origin_agent_id": frontline_card["name"],
+            "target_agent_id": returns_card["name"],
+            "customer_profile": {
+                "profile_id": "prof-alex-dev-001",
+                "email": "alex.dev@example.com",
+                "phone_number": "+447700900123",
+                "first_name": "Alex",
+                "last_name": "Dev"
+            },
+            "context_snapshot": {
+                "intent": "RETURN_ITEM_DAMAGED",
+                "dialogue_summary": "Customer called reporting defective wireless headphones (£49.99). Frontline agent verified identity via Customer Profiles and initiated return delegation.",
+                "order_id": "ORD-UK-2026-8819",
+                "sku": "AUDIO-HEADSET-PRO",
+                "return_reason": "DEFECTIVE_AUDIO",
+                "item_price_gbp": 49.99,
+                "purchase_date": "2026-07-28T14:20:00Z",
+                "fraud_risk_score": 0.04
+            }
         },
-        "context_snapshot": {
-            "intent": "RETURN_ITEM_DAMAGED",
-            "dialogue_summary": "Customer called reporting defective wireless headphones (£49.99). Frontline agent verified identity via Customer Profiles and initiated return delegation.",
-            "order_id": "ORD-UK-2026-8819",
-            "sku": "AUDIO-HEADSET-PRO",
-            "return_reason": "DEFECTIVE_AUDIO",
-            "item_price_gbp": 49.99,
-            "purchase_date": "2026-07-28T14:20:00Z",
-            "fraud_risk_score": 0.04
-        }
+        "id": "req-8801"
     }
 
-    valid, msg = validate_handoff_payload(handoff_contract)
-    print(f"[OK] Payload Contract Validation: {msg}")
-    print("Payload Content:\n", json.dumps(handoff_contract, indent=2))
+    valid, msg = validate_handoff_payload(jsonrpc_request)
+    print(f"[OK] JSON-RPC 2.0 Payload Validation: {msg}")
+    print("Request Envelope:\n", json.dumps(jsonrpc_request, indent=2))
 
     print("\n=======================================================")
-    print("[+] [Step 3/3] Simulating A2A Router Execution")
+    print("[+] [Step 3/3] Simulating A2A Router JSON-RPC Execution")
     print("=======================================================")
 
     mock_apigw_event = {
@@ -85,22 +91,21 @@ def run_local_simulation():
                 }
             }
         },
-        "rawPath": "/a2a/handoff",
-        "body": json.dumps(handoff_contract)
+        "rawPath": "/a2a/tasks",
+        "body": json.dumps(jsonrpc_request)
     }
 
     router_response = router_handler(mock_apigw_event, None)
-    print(f"[OK] A2A Router Response Code: {router_response['statusCode']}")
+    print(f"[OK] A2A Router HTTP Response Code: {router_response['statusCode']}")
     body_data = json.loads(router_response['body'])
-    print("Response Data:\n", json.dumps(body_data, indent=2))
+    print("JSON-RPC 2.0 Response:\n", json.dumps(body_data, indent=2))
 
-    # Also directly invoke Returns Specialist handler for full end-to-end verification
-    specialist_response = specialist_handler(handoff_contract, None)
+    specialist_response = specialist_handler(jsonrpc_request, None)
     print("\n=======================================================")
-    print("[+] [Specialist Execution] Returns Agent Valuation Result")
+    print("[+] [Specialist Execution] A2A Open Protocol Task Output")
     print("=======================================================")
     print(json.dumps(specialist_response, indent=2))
-    print("\n[OK] Local A2A Simulation completed successfully.")
+    print("\n[OK] Local A2A Open Protocol v1.0 simulation completed successfully.")
 
 
 def run_live_aws_simulation(api_endpoint: str, token_endpoint: str, client_id: str, client_secret: str):
@@ -133,45 +138,51 @@ def run_live_aws_simulation(api_endpoint: str, token_endpoint: str, client_id: s
         return
 
     print("\n=======================================================")
-    print("[+] [AWS Step 2/3] Fetching Agent Card via API Gateway")
+    print("[+] [AWS Step 2/3] Fetching Agent Card (/.well-known/agent.json)")
     print("=======================================================")
 
-    card_url = f"{api_endpoint.rstrip('/')}/a2a/agent-cards/returns-specialist"
+    card_url = f"{api_endpoint.rstrip('/')}/.well-known/agent.json"
     req_card = urllib.request.Request(card_url, method="GET")
     try:
         with urllib.request.urlopen(req_card) as resp:
             card_data = json.loads(resp.read().decode("utf-8"))
-            print("[OK] Agent Card Retrieved:\n", json.dumps(card_data, indent=2))
+            print("[OK] A2A Agent Card Retrieved:\n", json.dumps(card_data, indent=2))
     except Exception as err:
         print(f"[WARN] Agent card fetch failed: {str(err)}")
 
     print("\n=======================================================")
-    print("[+] [AWS Step 3/3] Initiating A2A Handoff via API Gateway")
+    print("[+] [AWS Step 3/3] Sending A2A Task via JSON-RPC 2.0 (POST /a2a/tasks)")
     print("=======================================================")
 
-    handoff_url = f"{api_endpoint.rstrip('/')}/a2a/handoff"
-    handoff_payload = {
-        "session_id": "aws-connect-session-9901",
-        "origin_agent_id": "agent-frontline-concierge",
-        "target_agent_id": "agent-returns-specialist",
-        "customer_profile": {
-            "profile_id": "prof-aws-001",
-            "email": "alex.dev@example.com",
-            "phone_number": "+447700900123"
+    tasks_url = f"{api_endpoint.rstrip('/')}/a2a/tasks"
+    jsonrpc_payload = {
+        "jsonrpc": "2.0",
+        "method": "tasks/send",
+        "params": {
+            "task_id": "aws-task-9901",
+            "session_id": "aws-connect-session-9901",
+            "origin_agent_id": "agent-frontline-concierge",
+            "target_agent_id": "agent-returns-specialist",
+            "customer_profile": {
+                "profile_id": "prof-aws-001",
+                "email": "alex.dev@example.com",
+                "phone_number": "+447700900123"
+            },
+            "context_snapshot": {
+                "intent": "RETURN_ITEM",
+                "dialogue_summary": "Customer requested return authorisation for audio headset (£49.99).",
+                "order_id": "ORD-UK-9921",
+                "sku": "AUDIO-HEADSET-PRO",
+                "item_price_gbp": 49.99,
+                "fraud_risk_score": 0.05
+            }
         },
-        "context_snapshot": {
-            "intent": "RETURN_ITEM",
-            "dialogue_summary": "Customer requested return authorization for audio headset (£49.99).",
-            "order_id": "ORD-UK-9921",
-            "sku": "AUDIO-HEADSET-PRO",
-            "item_price_gbp": 49.99,
-            "fraud_risk_score": 0.05
-        }
+        "id": "req-9901"
     }
 
-    handoff_req = urllib.request.Request(
-        handoff_url,
-        data=json.dumps(handoff_payload).encode("utf-8"),
+    tasks_req = urllib.request.Request(
+        tasks_url,
+        data=json.dumps(jsonrpc_payload).encode("utf-8"),
         headers={
             "Authorization": f"Bearer {access_token}",
             "Content-Type": "application/json"
@@ -180,11 +191,11 @@ def run_live_aws_simulation(api_endpoint: str, token_endpoint: str, client_id: s
     )
 
     try:
-        with urllib.request.urlopen(handoff_req) as resp:
+        with urllib.request.urlopen(tasks_req) as resp:
             res_body = json.loads(resp.read().decode("utf-8"))
-            print("[OK] A2A Handoff Executed Successfully!\n", json.dumps(res_body, indent=2))
+            print("[OK] A2A JSON-RPC 2.0 Task Executed Successfully!\n", json.dumps(res_body, indent=2))
     except Exception as err:
-        print(f"[ERROR] A2A Handoff request failed: {str(err)}")
+        print(f"[ERROR] A2A Task request failed: {str(err)}")
 
 
 if __name__ == "__main__":

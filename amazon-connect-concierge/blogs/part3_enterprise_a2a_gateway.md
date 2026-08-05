@@ -4,13 +4,13 @@ Welcome to **Part 3** of our technical series on building a **Next-Gen Omnichann
 
 In [Part 1](./part1_zero_to_ai_ready.md), we established an AI-ready customer data foundation using **Amazon Connect Customer Profiles** and dynamic entity resolution. In [Part 2](./part2_agentic_tooling_mcp_guardrails.md), we integrated legacy e-commerce APIs using the **Model Context Protocol (MCP)** and protected our model outputs with **Amazon Bedrock Guardrails**.
 
-In this article, we solve one of the most pressing architectural challenges in enterprise AI: **Multi-Agent Collaboration**. We detail how to architect and deploy a decoupled, zero-baseline-cost **Agent-to-Agent (A2A) Serverless Gateway** on AWS using **Amazon API Gateway**, **Amazon Cognito (OAuth2 Client Credentials)**, **AWS Lambda**, and **declarative Agent Cards**.
+In this article, we solve one of the most pressing architectural challenges in enterprise AI: **Multi-Agent Collaboration**. We detail how to architect and deploy a decoupled, zero-baseline-cost **Agent-to-Agent (A2A) Serverless Gateway** on AWS strictly conforming to the published **Linux Foundation A2A Open Protocol v1.0 Specification** using **Amazon API Gateway**, **Amazon Cognito (OAuth2 Client Credentials)**, **AWS Lambda**, **JSON-RPC 2.0**, and **standardised Agent Cards**.
 
 ---
 
 ## 🏗️ System Architecture & Multi-Agent Mesh
 
-In large enterprise environments, a single monolithic LLM prompt or agent cannot—and should not—handle every domain interaction. Frontline contact centre agents (like Amazon Connect IVR or chat flows) need to delegate specialized operations—such as calculating return valuations, issuing Return Merchandise Authorisations (RMAs), or processing refunds—to dedicated domain agents.
+In large enterprise environments, a single monolithic LLM prompt or agent cannot—and should not—handle every domain interaction. Frontline contact centre agents (like Amazon Connect IVR or chat flows) need to delegate specialised operations—such as calculating return valuations, issuing Return Merchandise Authorisations (RMAs), or processing refunds—to dedicated domain agents.
 
 ```mermaid
 graph TD
@@ -36,40 +36,45 @@ graph TD
         
         A2AApi --- RateLimiter
         JWTAuthorizer --> A2AApi
-        A2AApi --> |POST /a2a/handoff| RouterLambda
+        A2AApi --> |"POST /a2a/tasks (JSON-RPC 2.0)"| RouterLambda
     end
 
     %% Domain Specialist Execution
     subgraph SpecialistBoundary ["4. Enterprise Specialist Agent Layer"]
         ReturnsSpecialist["Returns & Refunds Specialist Agent<br>(ConnectConcierge-ReturnsSpecialist)"]
-        AgentCards["Declarative Agent Cards Registry<br>(agent_card_returns.json)"]
+        AgentCards["Declarative Agent Cards Registry<br>(/.well-known/agent.json)"]
         
         RouterLambda --> |Validate Contract & Invoke| ReturnsSpecialist
         RouterLambda -.-> |Fetch Capability Spec| AgentCards
     end
 
     %% Response Flow
-    ReturnsSpecialist --> |Authorized Refund & RMA| RouterLambda
-    RouterLambda --> |A2A Response Payload| FrontlineAgent
+    ReturnsSpecialist --> |Authorised Refund & RMA| RouterLambda
+    RouterLambda --> |JSON-RPC 2.0 Result Payload| FrontlineAgent
 ```
 
 ---
 
 ## 🌟 Key Technical Concepts
 
-### 1. Declarative Agent Cards (`AgentCard.json`)
-Just as OpenAPI standardizes web REST APIs, **Agent Cards** provide declarative JSON specifications for AI agents. An Agent Card advertises an agent's:
-* **Unique Agent Identifier** (`agent_id`)
-* **Role & Responsibility** (`role` e.g. `RETURNS_SPECIALIST`)
-* **OAuth2 Security Requirements** (`auth_type`, `scopes_supported`)
-* **Granular Capabilities** (e.g. `return_valuation`, `rma_generation`)
-* **API Endpoints** for card discovery and handoff execution
+### 1. Declarative Agent Cards (`/.well-known/agent.json`)
+Conforming to the published A2A Open Protocol v1.0 specification, **Agent Cards** are hosted at the standard URI `/.well-known/agent.json`. An Agent Card advertises an agent's:
+* **Protocol Version** (`protocol_version: "1.0"`)
+* **Provider Identity** (`provider`: Amazon Connect Concierge)
+* **OAuth2 Security Requirements** (`authentication`: `client_credentials`, `scopes`)
+* **Granular Skills & Capabilities** (e.g. `return_valuation`, `rma_generation`)
+* **Service Endpoints** (`card_endpoint: "/.well-known/agent.json"`, `task_endpoint: "/a2a/tasks"`)
 
-### 2. Machine-to-Machine (M2M) OAuth2 Security Model
+### 2. JSON-RPC 2.0 Task Execution Envelopes
+Task execution uses **JSON-RPC 2.0** envelopes over HTTP (`method: "tasks/send"`):
+* **Request Envelope**: Contains `jsonrpc: "2.0"`, `method: "tasks/send"`, `params` (task ID, session ID, profile, context snapshot), and correlation `id`.
+* **Response Envelope**: Returns standard JSON-RPC 2.0 `result` or `error` structures.
+
+### 3. Machine-to-Machine (M2M) OAuth2 Security Model
 Cross-agent communication requires strict authentication. We use **Amazon Cognito User Pools** configured with an OAuth2 **Client Credentials** grant type.
 * **Token Request**: The frontline agent exchanges its `client_id` and `client_secret` for a signed JWT access token.
 * **Scope Validation**: The token carries custom resource server scopes (`a2a/handoff`).
-* **Edge Validation**: API Gateway's native JWT Authorizer verifies the token signature, issuer URL (`iss`), and target audience (`aud`) at the network boundary before invoking compute handlers.
+* **Edge Validation**: API Gateway's native JWT Authorizer verifies token signatures and claims at the network boundary before invoking compute handlers.
 
 ### 3. Zero-Baseline Cost Architecture
 By leveraging AWS serverless primitives, the entire A2A Gateway operates at a **£0.00/month baseline idle cost**:
@@ -81,7 +86,7 @@ By leveraging AWS serverless primitives, the entire A2A Gateway operates at a **
 
 ## ⚙️ Step-by-Step Code Walkthrough
 
-### 1. Standardized A2A Handoff Contract (`a2a_handoff_contract.json`)
+### 1. Standardised A2A Handoff Contract (`a2a_handoff_contract.json`)
 
 The handoff contract enforces a strict JSON schema for session state transitions:
 
@@ -166,7 +171,7 @@ When publishing this architecture blog post or demonstrating project completion,
 | **Screenshot 1** | **Cognito User Pool App Client & Scopes** | **Amazon Cognito** > User Pools > `ConnectConcierge-A2AUserPool` > App Clients > `A2AMeshClient` (Highlighting `client_credentials` flow & `a2a/handoff` custom scope). |
 | **Screenshot 2** | **API Gateway HTTP API Routes & JWT Authorizer** | **API Gateway** > `ConnectConcierge-A2AGatewayApi` > Authorization / Routes (Showing `POST /a2a/handoff` attached to `A2ACognitoAuthorizer`). |
 | **Screenshot 3** | **CloudWatch Execution Logs** | **CloudWatch** > Log Groups > `/aws/lambda/ConnectConcierge-A2ARouter` (Showing structured log lines verifying verified claims and session handoff). |
-| **Screenshot 4** | **Terminal CLI Simulation Run** | Terminal window executing `python scripts/simulate_a2a_handoff.py` showing OAuth2 token acquisition, card discovery, and £49.99 refund authorization. |
+| **Screenshot 4** | **Terminal CLI Simulation Run** | Terminal window executing `python scripts/simulate_a2a_handoff.py` showing OAuth2 token acquisition, card discovery, and £49.99 refund authorisation. |
 
 ---
 
@@ -196,4 +201,4 @@ python scripts/simulate_a2a_handoff.py
 
 ## 📄 Next Up: Part 4
 
-In **Part 4**, we will implement **Production Gatekeeping: Real-Time Latency Optimization (<800ms SLAs) and Automated Ragas Guardrail Evaluation**.
+In **Part 4**, we will implement **Production Gatekeeping: Real-Time Latency Optimisation (<800ms SLAs) and Automated Ragas Guardrail Evaluation**.

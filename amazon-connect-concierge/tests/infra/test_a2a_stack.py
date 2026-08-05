@@ -1,4 +1,4 @@
-"""CDK Stack Assertion tests for ConciergeA2AGatewayStack."""
+"""CDK Stack Assertion tests for ConciergeA2AGatewayStack (A2A Open Protocol v1.0 Compliant)."""
 
 import pytest
 from aws_cdk import App, Environment
@@ -66,7 +66,7 @@ def test_cognito_user_pool_client_flows(a2a_stack_template):
 
 
 def test_api_gateway_http_api_routes(a2a_stack_template):
-    """Verify API Gateway HTTP API contains routes for handoff and agent cards."""
+    """Verify API Gateway HTTP API contains routes for A2A Open Protocol endpoints."""
     a2a_stack_template.has_resource_properties(
         "AWS::ApiGatewayV2::Api",
         {
@@ -75,14 +75,18 @@ def test_api_gateway_http_api_routes(a2a_stack_template):
         }
     )
 
-    # Check Routes exist
+    # Check Routes exist for A2A Open Protocol v1.0
     a2a_stack_template.has_resource_properties(
         "AWS::ApiGatewayV2::Route",
-        {"RouteKey": "POST /a2a/handoff"}
+        {"RouteKey": "GET /.well-known/agent.json"}
     )
     a2a_stack_template.has_resource_properties(
         "AWS::ApiGatewayV2::Route",
-        {"RouteKey": "GET /a2a/agent-cards/{agent_id}"}
+        {"RouteKey": "POST /a2a/tasks"}
+    )
+    a2a_stack_template.has_resource_properties(
+        "AWS::ApiGatewayV2::Route",
+        {"RouteKey": "POST /a2a/handoff"}
     )
 
 

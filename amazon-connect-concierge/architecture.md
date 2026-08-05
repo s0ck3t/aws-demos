@@ -1,12 +1,12 @@
 # Architecture & Design: Amazon Connect Omnichannel AI Concierge (Part 1)
 
-This document provides the complete technical architecture, data pipeline specs, identity resolution logic, and design trade-offs for **Part 1: Customer Data Readiness & Predictive Personalization Pipeline** of the Next-Gen Omnichannel E-Commerce AI Concierge system.
+This document provides the complete technical architecture, data pipeline specs, identity resolution logic, and design trade-offs for **Part 1: Customer Data Readiness & Predictive Personalisation Pipeline** of the Next-Gen Omnichannel E-Commerce AI Concierge system.
 
 ---
 
 ## 1. System Architecture
 
-Part 1 establishes the real-time customer data foundation required for GenAI contact center personalization.
+Part 1 establishes the real-time customer data foundation required for GenAI contact centre personalisation.
 
 ```mermaid
 graph TD

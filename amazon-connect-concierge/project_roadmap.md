@@ -22,7 +22,7 @@ graph LR
 
 ### **Focus & Concepts**:
 * Agentic Tooling & Spec-Driven Development using an **Agentic IDE** (e.g. Antigravity).
-* Standardizing legacy enterprise APIs (inventory, ticketing) using the **Model Context Protocol (MCP)**.
+* Standardising legacy enterprise APIs (inventory, ticketing) using the **Model Context Protocol (MCP)**.
 * Implementing Amazon Bedrock Guardrails for safety, PII redaction, and hallucination control.
 
 ### **What We Will Build**:
@@ -30,7 +30,7 @@ graph LR
    * OpenAPI specs for Legacy E-Commerce Inventory (`GET /inventory/{sku}`) and Order Status/Returns (`POST /tickets/create`).
    * Serverless API Gateway + AWS Lambda backends.
 2. **Custom Model Context Protocol (MCP) Server**:
-   * Build a custom MCP server in Python (`mcp-server-ecommerce`) exposing standardized tool definitions to foundation models.
+   * Build a custom MCP server in Python (`mcp-server-ecommerce`) exposing standardised tool definitions to foundation models.
 3. **Bedrock Guardrail Configuration**:
    * Provision a Bedrock Guardrail in CDK enforcing PII masking (email, phone, credit card), topic blocking, and contextual grounding thresholds.
 4. **Amazon Connect Orchestration AI Agent**:
@@ -45,18 +45,18 @@ graph LR
 
 ### **Focus & Concepts**:
 * Multi-Agent Mesh Architectures & Agent-to-Agent (A2A) Protocol.
-* Decoupled specialized agents (Frontline Voice/Chat Agent vs Returns & Refunds Agent).
+* Decoupled specialised agents (Frontline Voice/Chat Agent vs Returns & Refunds Agent).
 * Cognito Token Authentication and State Handoff.
 
 ### **What We Will Build**:
 1. **Serverless A2A Gateway**:
    * Amazon API Gateway + AWS Step Functions orchestrator.
    * Amazon Cognito User Pool for OAuth2 client credentials token authentication.
-2. **Two Specialized Agents**:
+2. **Two Specialised Agents**:
    * **Agent 1**: Frontline Voice/Chat Agent in Amazon Connect (handles triage, basic identity verification via Customer Profiles, and intent extraction).
    * **Agent 2**: External Returns & Refunds Specialist Agent (built on Bedrock Agent Core runtime, capable of calculating refund eligibility and issuing return labels).
 3. **Agent Cards & State Contracts**:
-   * Standardized JSON Agent Cards defining capabilities, input/output schemas, and state handoff protocols (`AgentCard.json`).
+   * Standardised JSON Agent Cards defining capabilities, input/output schemas, and state handoff protocols (`AgentCard.json`).
    * Seamless session handoff demonstrating voice/chat context persistence across agent transitions.
 
 ---
@@ -68,7 +68,7 @@ graph LR
 
 ### **Focus & Concepts**:
 * Automated Pre-Production Gatekeeping & Field Readiness.
-* Real-time Voice Latency Optimization (<800ms response targets).
+* Real-time Voice Latency Optimisation (<800ms response targets).
 * LLM Accuracy Evaluation (Ragas / LLM-as-a-Judge).
 
 ### **What We Will Build**:

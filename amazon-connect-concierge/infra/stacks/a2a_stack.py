@@ -188,15 +188,26 @@ class A2AGatewayStack(Stack):
             self.returns_specialist_fn
         )
 
-        # Add Routes
-        # 1. Public/Card Discovery Route: GET /a2a/agent-cards/{agent_id}
+        # Add Routes for A2A Open Protocol v1.0 Compliance
+        # 1. Official A2A Discovery Route: GET /.well-known/agent.json & GET /a2a/agent-cards/{agent_id}
+        self.http_api.add_routes(
+            path="/.well-known/agent.json",
+            methods=[apigw2.HttpMethod.GET],
+            integration=router_integration
+        )
         self.http_api.add_routes(
             path="/a2a/agent-cards/{agent_id}",
             methods=[apigw2.HttpMethod.GET],
             integration=router_integration
         )
 
-        # 2. Secured Handoff Route: POST /a2a/handoff
+        # 2. Official A2A Task Execution Routes (JSON-RPC 2.0): POST /a2a/tasks & POST /a2a/handoff
+        self.http_api.add_routes(
+            path="/a2a/tasks",
+            methods=[apigw2.HttpMethod.POST],
+            integration=router_integration,
+            authorizer=self.jwt_authorizer
+        )
         self.http_api.add_routes(
             path="/a2a/handoff",
             methods=[apigw2.HttpMethod.POST],

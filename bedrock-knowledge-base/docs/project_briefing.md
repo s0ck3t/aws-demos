@@ -10,7 +10,7 @@ The Brentwood Policy Oracle is a proof-of-concept, serverless Retrieval-Augmente
 * **Prioritize Traceability (No Hallucination)**: Ensure every generated response is strictly grounded in the source data, returning the exact document title, section, and page number to the end-user.
 * **Demonstrate Cost-Consciousness**: Explicitly design around default high-cost cloud configurations, creating a pipeline suitable for low-traffic public sector pilots without high baseline infrastructure overhead.
 * **Establish Metric-Driven Trust**: Implement a programmatic evaluation strategy to score the system's performance on factual consistency (faithfulness) and answer relevance.
-* **Apply AWS Well-Architected Principles**: Implement security-at-all-layers (least-privilege IAM roles, S3 bucket encryption, VPC Private Links) and cost optimization patterns (S3 Vectors storage tiered lifecycle management).
+* **Apply AWS Well-Architected Principles**: Implement security-at-all-layers (least-privilege IAM roles, S3 bucket encryption, VPC Private Links) and cost optimisation patterns (S3 Vectors storage tiered lifecycle management).
 
 ## 3. Core Requirements & Scope
 

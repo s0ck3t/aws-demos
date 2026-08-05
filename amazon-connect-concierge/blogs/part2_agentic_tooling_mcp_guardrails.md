@@ -79,13 +79,13 @@ graph TD
 * **Decision**: Provision a dedicated `CfnGuardrail` and `CfnGuardrailVersion` in AWS CDK encrypted with our Customer Managed Key (CMK).
 * **Rationale**:
   * **PII Protection & Compliance**: Customer contact flows must automatically strip or block sensitive personal identifiers before sending prompt contexts to foundation models. Email addresses, phone numbers, and UK National Insurance numbers (NIN) are automatically masked with `ANONYMIZE`, while financial data and tax identifiers (Credit/Debit Card numbers and UK Unique Taxpayer Reference numbers) trigger an immediate `BLOCK`.
-  * **Topic Denial Filters**: Prevent the agent from delivering unauthorized financial advice or engaging in direct competitor comparisons.
+  * **Topic Denial Filters**: Prevent the agent from delivering unauthorised financial advice or engaging in direct competitor comparisons.
   * **Hallucination Control**: A strict 0.85 `GROUNDING` threshold ensures responses are strictly grounded in retrieved inventory and profile data, while an 0.80 `RELEVANCE` threshold eliminates off-topic queries.
 
 ### 3. Serverless Cost-Control Baseline (£0.00 Idle Cost) & Abuse Mitigation
 * **API Gateway HTTP APIs**: HTTP APIs are used in favour of standard REST APIs or Application Load Balancers, costing **approximately £0.80 per million requests** with **£0.00 baseline idle cost**.
-* **Stage-Level Rate Limiting**: Standard pay-per-request serverless endpoints scale under load and can incur unexpected charges if spammed. By attaching stage-level throttling limits (**10 requests/second** and **burst limit of 20**) to the `$default` stage, excess traffic is rejected at the API Gateway edge with **`HTTP 429 Too Many Requests`**. This prevents unauthorized callers from invoking Lambda compute, ensuring baseline idle cost remains **£0.00/month** and financial exposure under attack is strictly capped.
-* **Production API Authorisation**: In production enterprise environments, HTTP API routes can enforce `AWS_IAM` authorisation to ensure only authorized Amazon Bedrock Action Groups or Connect execution roles can invoke backend tool Lambdas.
+* **Stage-Level Rate Limiting**: Standard pay-per-request serverless endpoints scale under load and can incur unexpected charges if spammed. By attaching stage-level throttling limits (**10 requests/second** and **burst limit of 20**) to the `$default` stage, excess traffic is rejected at the API Gateway edge with **`HTTP 429 Too Many Requests`**. This prevents unauthorised callers from invoking Lambda compute, ensuring baseline idle cost remains **£0.00/month** and financial exposure under attack is strictly capped.
+* **Production API Authorisation**: In production enterprise environments, HTTP API routes can enforce `AWS_IAM` authorisation to ensure only authorised Amazon Bedrock Action Groups or Connect execution roles can invoke backend tool Lambdas.
 * **AWS Lambda & Bedrock Guardrails**: Compute scales down to zero when inactive with explicit 30-day CloudWatch log retention.
 
 ---

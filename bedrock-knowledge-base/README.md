@@ -1,6 +1,6 @@
 # The Brentwood Policy Oracle (Serverless RAG Demo)
 
-The **Brentwood Policy Oracle** is a serverless, cost-optimized Retrieval-Augmented Generation (RAG) assistant designed for public housing policy queries. Built using **Amazon Bedrock Knowledge Bases**, it allows housing officers and UK citizens to get immediate answers to complex policy questions, accompanied by exact source PDF page citations.
+The **Brentwood Policy Oracle** is a serverless, cost-optimised Retrieval-Augmented Generation (RAG) assistant designed for public housing policy queries. Built using **Amazon Bedrock Knowledge Bases**, it allows housing officers and UK citizens to get immediate answers to complex policy questions, accompanied by exact source PDF page citations.
 
 This demo highlights how to handle unstructured public regulatory documents containing complex tables (like points-banding allocation matrices) and operate a RAG pipeline at **$0/month baseline idle cost**.
 
