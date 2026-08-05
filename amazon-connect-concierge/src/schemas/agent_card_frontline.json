@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "agent_id": "agent-frontline-concierge",
+  "name": "Amazon Connect Frontline Concierge Agent",
+  "version": "1.0.0",
+  "description": "Frontline omnichannel voice and chat agent in Amazon Connect responsible for identity verification, intent classification, and delegating specialized requests.",
+  "role": "FRONTLINE_TRIAGE",
+  "auth_type": "OAUTH2_CLIENT_CREDENTIALS",
+  "scopes_supported": [
+    "a2a/handoff",
+    "a2a/read"
+  ],
+  "capabilities": [
+    {
+      "capability_id": "customer_triage",
+      "name": "Customer Identity & Intent Triage",
+      "description": "Resolves customer identity via Customer Profiles and classifies inbound contact intent."
+    },
+    {
+      "capability_id": "a2a_handoff_initiation",
+      "name": "A2A Handoff Initiation",
+      "description": "Packaging dialogue context, propensity scores, and active contact session variables into standard A2A handoff contracts."
+    }
+  ],
+  "endpoints": {
+    "agent_card": "/a2a/agent-cards/frontline-concierge",
+    "handoff_endpoint": "/a2a/handoff"
+  }
+}

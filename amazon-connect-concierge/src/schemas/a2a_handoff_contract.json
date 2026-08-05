@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "A2AHandoffContract",
+  "type": "object",
+  "required": [
+    "session_id",
+    "origin_agent_id",
+    "target_agent_id",
+    "customer_profile",
+    "context_snapshot"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique Amazon Connect contact session identifier."
+    },
+    "origin_agent_id": {
+      "type": "string",
+      "description": "Agent ID of the originating agent (e.g. agent-frontline-concierge)."
+    },
+    "target_agent_id": {
+      "type": "string",
+      "description": "Agent ID of the destination specialist agent (e.g. agent-returns-specialist)."
+    },
+    "customer_profile": {
+      "type": "object",
+      "required": ["profile_id", "email"],
+      "properties": {
+        "profile_id": { "type": "string" },
+        "email": { "type": "string" },
+        "phone_number": { "type": "string" },
+        "first_name": { "type": "string" },
+        "last_name": { "type": "string" }
+      }
+    },
+    "context_snapshot": {
+      "type": "object",
+      "required": ["intent", "dialogue_summary"],
+      "properties": {
+        "intent": { "type": "string" },
+        "dialogue_summary": { "type": "string" },
+        "order_id": { "type": "string" },
+        "sku": { "type": "string" },
+        "return_reason": { "type": "string" },
+        "item_price_gbp": { "type": "number" },
+        "purchase_date": { "type": "string" },
+        "fraud_risk_score": { "type": "number" }
+      }
+    }
+  }
+}

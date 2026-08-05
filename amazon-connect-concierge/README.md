@@ -22,9 +22,9 @@ This repository documents a 4-part production build for a Next-Gen Omnichannel E
 
 | Part | Title & Focus | Key Tech Stack | Baseline Cost | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **Part 1** | [**Zero to AI-Ready: Data Readiness & Identity Resolution**](./blogs/part1_zero_to_ai_ready.md) *(Current Release)* | Customer Profiles, Dynamic Entity Resolution, AWS Lambda, S3, KMS CMK, CDK Python | **£0.00 / month (Idle)** | ✔️ **Completed** |
-| **Part 2** | [**Agentic Tooling & Bedrock Guardrails**](./project_roadmap.md#%EF%B8%8F-part-2-agentic-tooling--mcp-integration-with-an-agentic-ide) | Model Context Protocol (MCP) Server, Bedrock Guardrails, PII Masking, Spec-Driven API Tooling | **£0.00 / month (Idle)** | 🟡 *Planned (Part 2)* |
-| **Part 3** | [**Cross-Enterprise Collaboration: Serverless A2A Gateway**](./project_roadmap.md#-part-3-enterprise-agent-to-agent-a2a-serverless-gateway) | Amazon Connect Contact Flows, Bedrock Agent Core, Serverless A2A Gateway, EventBridge, Cognito | **£0.00 / month (Idle)** | 🟡 *Planned (Part 3)* |
+| **Part 1** | [**Zero to AI-Ready: Data Readiness & Identity Resolution**](./blogs/part1_zero_to_ai_ready.md) | Customer Profiles, Dynamic Entity Resolution, AWS Lambda, S3, KMS CMK, CDK Python | **£0.00 / month (Idle)** | ✔️ **Completed** |
+| **Part 2** | [**Agentic Tooling & Bedrock Guardrails**](./blogs/part2_agentic_tooling_mcp_guardrails.md) | Model Context Protocol (MCP) Server, Bedrock Guardrails, PII Masking, Spec-Driven API Tooling | **£0.00 / month (Idle)** | ✔️ **Completed** |
+| **Part 3** | [**Cross-Enterprise Collaboration: Serverless A2A Gateway**](./blogs/part3_enterprise_a2a_gateway.md) | Serverless A2A Gateway, Cognito M2M Client Credentials, API Gateway HTTP API, Agent Cards | **£0.00 / month (Idle)** | ✔️ **Completed** |
 | **Part 4** | [**Production Gatekeeping: Latency SLAs & Evals**](./project_roadmap.md#-part-4-pre-production-evaluation--latencyaccuracy-benchmarking) | Sub-800ms Telephony SLA Harness, Synthetic Contact Pipeline, Ragas Evals, CloudWatch Metrics | **£0.00 / month (Idle)** | 🟡 *Planned (Part 4)* |
 
 For detailed implementation specifications for future releases, inspect [project_roadmap.md](./project_roadmap.md).
@@ -102,26 +102,35 @@ amazon-connect-concierge/
 ├── requirements.txt               # Python 3.12 dependencies
 ├── .env.example                   # Local environment variable template
 ├── blogs/                         # Publication-ready blog posts
-│   └── part1_zero_to_ai_ready.md  # Part 1 technical deep-dive article
+│   ├── part1_zero_to_ai_ready.md  # Part 1 technical deep-dive article
+│   ├── part2_agentic_tooling_mcp_guardrails.md # Part 2 technical article
+│   └── part3_enterprise_a2a_gateway.md # Part 3 technical article
 ├── data/                          # Synthetic product catalog & clickstream event datasets
-│   ├── catalog.csv                # Synthetic e-commerce product catalog
-│   └── clickstream_events.json    # Real-time web/mobile customer clickstream events
 ├── infra/                         # AWS CDK Infrastructure as Code (Python)
 │   ├── app.py                     # CDK application entrypoint
 │   └── stacks/
 │       ├── security_stack.py      # KMS Customer Managed Keys, IAM Roles & Policies
 │       ├── storage_stack.py       # S3 Ingestion Buckets, Customer Profiles Domain & Mappings
-│       └── compute_stack.py       # Data Ingestion Lambdas & Profile Recommendations API
+│       ├── compute_stack.py       # Data Ingestion Lambdas & Profile Recommendations API
+│       ├── tooling_stack.py       # Tooling APIs & Bedrock Guardrails Stack
+│       └── a2a_stack.py           # A2A Serverless Gateway & Cognito M2M Stack
 ├── scripts/                       # Helper & execution automation scripts
-│   └── simulate_customer_journey.py # End-to-end customer journey simulator script
+│   ├── simulate_customer_journey.py # Part 1 Customer journey simulator
+│   └── simulate_a2a_handoff.py    # Part 3 Agent-to-Agent handoff simulator
 ├── src/                           # Core application & Lambda logic
-│   ├── lambdas/                   # Data ingestion, clickstream & profile recommendation handlers
-│   │   ├── catalog_ingest.py      # Product catalog CSV parsing & ingestion
-│   │   ├── clickstream_process.py # Web clickstream event transformer & identity merger
-│   │   └── profile_recommendations.py # Predictive recommendations API handler
-│   └── utils/                     # Service wrappers & payload parsing utilities
-│       ├── boto3_helpers.py       # AWS SDK client initialisation helpers
-│       └── profile_parser.py      # Profile payload normalization & propensity scoring
+│   ├── lambdas/                   # Data ingestion, clickstream & A2A Gateway handlers
+│   │   ├── catalog_ingestion.py   # Product catalog ingestion
+│   │   ├── clickstream_processor.py # Web clickstream event transformer
+│   │   ├── inventory_tool.py      # Tool API handler for inventory
+│   │   ├── ticketing_tool.py      # Tool API handler for tickets
+│   │   ├── a2a_router.py          # A2A Gateway router Lambda
+│   │   └── returns_specialist_agent.py # Returns specialist agent handler
+│   ├── schemas/                   # Declarative OpenAPI and Agent Card schemas
+│   │   ├── agent_card_frontline.json # Frontline agent card
+│   │   ├── agent_card_returns.json   # Specialist returns agent card
+│   │   └── a2a_handoff_contract.json # A2A handoff contract schema
+│   └── utils/                     # Service wrappers & A2A utilities
+│       └── a2a_helper.py          # A2A contract validation & agent card helpers
 └── tests/                         # Automated testing harness
     ├── infra/                     # CDK stack assertion unit tests
     └── unit/                      # Pytest unit tests for Lambda functions and parsers

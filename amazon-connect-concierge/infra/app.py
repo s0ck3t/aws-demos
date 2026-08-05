@@ -7,6 +7,7 @@ from stacks.security_stack import SecurityStack
 from stacks.storage_stack import StorageStack
 from stacks.compute_stack import ComputeStack
 from stacks.tooling_stack import ToolingStack
+from stacks.a2a_stack import A2AGatewayStack
 
 app = App()
 
@@ -59,4 +60,16 @@ tooling_stack = ToolingStack(
 )
 tooling_stack.add_dependency(security_stack)
 
+# Stack 5: A2A Gateway Stack (Cognito M2M Auth, A2A Router, Specialist Agent)
+a2a_stack = A2AGatewayStack(
+    app,
+    "ConciergeA2AGatewayStack",
+    env=env,
+    encryption_key=security_stack.encryption_key,
+    lambda_role=security_stack.lambda_execution_role,
+    description="A2A Gateway Stack for Agent-to-Agent Mesh Authentication and Routing"
+)
+a2a_stack.add_dependency(security_stack)
+
 app.synth()
+

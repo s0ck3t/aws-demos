@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "agent_id": "agent-returns-specialist",
+  "name": "E-Commerce Specialist Returns & Refunds Agent",
+  "version": "1.0.0",
+  "description": "Specialized domain agent responsible for calculating return eligibility, issuing Return Merchandise Authorisations (RMAs), generating return shipping labels, and authorizing refunds.",
+  "role": "RETURNS_SPECIALIST",
+  "auth_type": "OAUTH2_CLIENT_CREDENTIALS",
+  "scopes_supported": [
+    "a2a/handoff"
+  ],
+  "capabilities": [
+    {
+      "capability_id": "return_valuation",
+      "name": "Return Eligibility & Refund Valuation",
+      "description": "Evaluates return window compliance (e.g. 30 days), item condition rules, and calculates itemized refund amounts in GBP (£)."
+    },
+    {
+      "capability_id": "rma_generation",
+      "name": "RMA & Shipping Label Creation",
+      "description": "Generates unique RMA tracking codes and secure download URLs for return shipping labels."
+    }
+  ],
+  "endpoints": {
+    "agent_card": "/a2a/agent-cards/returns-specialist",
+    "execution_endpoint": "/a2a/specialist/returns"
+  }
+}
